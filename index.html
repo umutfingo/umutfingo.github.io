@@ -1,0 +1,472 @@
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notre Histoire Infinie</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Caveat:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================================================
+           KAHVE, KREM & PASTEL PEMBE RENK PALETİ VE PINTEREST GIF ARKA PLAN
+           ========================================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(44, 34, 30, 0.65), rgba(255, 181, 167, 0.45)), 
+                        url('https://i.pinimg.com/originals/a4/bc/93/a4bc933866d6d7a7ff250b9b3df36371.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #4a3b32;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Giriş Ekranı */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(44, 34, 30, 0.9), rgba(255, 181, 167, 0.8)), 
+                        url('https://i.pinimg.com/originals/a4/bc/93/a4bc933866d6d7a7ff250b9b3df36371.gif');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s ease;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #welcome-screen h2 {
+            font-family: 'Comfortaa', cursive;
+            color: #fdf5e6;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .enter-btn {
+            background: #fdf5e6;
+            color: #2c221e;
+            border: none;
+            padding: 16px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            background: #ffb5a7;
+            color: #2c221e;
+        }
+
+        /* Uçuşan Parıltılar */
+        .premium-sparkle {
+            position: absolute;
+            color: rgba(254, 250, 224, 0.7);
+            animation: sparkleAnim 4s ease-in-out infinite alternate;
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(0 0 8px #ffb5a7);
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0.3) rotate(0deg); opacity: 0.1; }
+            50% { opacity: 0.9; }
+            100% { transform: scale(1.3) rotate(180deg); opacity: 0; }
+        }
+
+        /* Ana İçerik Kartı */
+        .main-card {
+            display: none;
+            background: rgba(253, 245, 230, 0.92); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 650px;
+            width: 100%;
+            border-radius: 35px;
+            padding: 45px 35px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+            z-index: 2;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header { text-align: center; margin-bottom: 35px; }
+        header h1 { font-family: 'Comfortaa', cursive; color: #2c221e; font-size: 2.5rem; }
+
+        .intro-subtext {
+            font-size: 0.95rem;
+            color: #6f4e37;
+            background: rgba(255, 181, 167, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            border: 1px dashed #ffb5a7;
+            margin-top: 10px;
+        }
+
+        /* Takvim */
+        .calendar-leaf {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 35px;
+            border: 1px solid rgba(111, 78, 55, 0.1);
+        }
+
+        .calendar-leaf .top-bar {
+            background: #6f4e37;
+            color: #ffffff;
+            padding: 6px;
+            font-weight: 700;
+            border-radius: 10px;
+            letter-spacing: 2px;
+        }
+
+        .calendar-leaf .date-num {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #2c221e;
+            font-family: 'Comfortaa', cursive;
+        }
+
+        .calendar-leaf .sky-note { font-size: 0.9rem; color: #8a7060; font-style: italic; }
+
+        /* Sayaç */
+        .counter-section {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 25px;
+            border-radius: 24px;
+        }
+
+        .counter-section h2 { font-size: 1rem; letter-spacing: 2px; color: #8a7060; margin-bottom: 15px; }
+        #big-days { font-size: 4rem; font-weight: 700; color: #6f4e37; display: block; font-family: 'Comfortaa', cursive; }
+        #sub-time { font-size: 1.1rem; color: #ffffff; background: #6f4e37; padding: 8px 20px; border-radius: 50px; font-weight: 600; }
+
+        hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, #ffb5a7, transparent); margin: 35px 0; }
+
+        /* Polaroid */
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .polaroid-frame { background: white; padding: 12px; padding-bottom: 15px; border-radius: 4px; box-shadow: 0 15px 30px rgba(0,0,0,0.06); transform: rotate(-2deg); text-align: center; transition: 0.3s; }
+        .polaroid-frame:nth-child(2) { transform: rotate(3deg); }
+        .polaroid-frame:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
+        .photo-box { width: 100%; height: 180px; background: #eae5df; border-radius: 4px; background-size: cover; background-position: center; }
+        .polaroid-note { font-family: 'Caveat', cursive; font-size: 1.4rem; color: #6f4e37; margin-top: 12px; display: block; }
+
+        /* Playlist */
+        .song-card { background: #ffffff; border-radius: 24px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); text-align: center; }
+        .vinyl-record { font-size: 3.5rem; color: #2c221e; margin-bottom: 15px; display: inline-block; }
+        .vinyl-record.playing { animation: rotateVinyl 4s linear infinite; }
+        @keyframes rotateVinyl { 100% { transform: rotate(360deg); } }
+
+        .playlist-title { font-size: 1rem; text-transform: uppercase; color: #2c221e; font-weight: 700; letter-spacing: 2px; margin-bottom: 15px; border-bottom: 1px dashed #ffb5a7; padding-bottom: 8px; }
+
+        .playlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #4a3b32;
+            background: rgba(255, 181, 167, 0.1);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .playlist-item:hover { background: rgba(255, 181, 167, 0.25); transform: translateX(4px); }
+        .playlist-item i { color: #ffb5a7; margin-right: 10px; font-size: 1.05rem; }
+
+        .playlist-item.active-song { background: #ffb5a7 !important; color: #2c221e !important; font-weight: 600; }
+        .playlist-item.active-song i { color: #2c221e !important; }
+
+        /* Mektuplar */
+        .envelope-card { background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 5px solid #ffb5a7; }
+        .envelope-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .envelope-header h4 { font-size: 0.95rem; font-weight: 600; color: #2c221e; display: flex; align-items: center; gap: 10px; }
+        .open-btn { background: #6f4e37; color: #ffffff; border: none; padding: 8px 15px; border-radius: 50px; font-size: 0.8rem; cursor: pointer; }
+        .letter-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; color: #5a4b41; line-height: 1.7; font-style: italic; font-size: 0.95rem; text-align: justify; }
+        .letter-content.open { max-height: 500px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eae5df; }
+
+        footer { text-align: center; margin-top: 35px; font-weight: 700; color: #6f4e37; }
+
+        @media (max-width: 500px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.9rem; }
+            #big-days { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="audio-player"></audio>
+
+    <div id="welcome-screen">
+        <h2>♡ Bienvenue dans notre monde, mon amour.. ♡</h2>
+        <button class="enter-btn" onclick="siteyiAc()"><i class="fa-solid fa-heart-pulse"></i> Ouvrir notre histoire</button>
+    </div>
+
+    <div class="main-card" id="main-content">
+        <header>
+            <h1>Une Histoire Infinie</h1>
+            <div class="intro-subtext"><i class="fa-solid fa-heart"></i> 21 Mai 2026, 15:15... Tout a commencé à cette seconde précise.</div>
+        </header>
+
+        <div class="calendar-leaf">
+            <div class="top-bar">Mai 2026</div>
+            <div class="date-num">21</div>
+            <div class="sky-note"><i class="fa-solid fa-moon"></i> Le jour où le ciel est devenu plus brillant...</div>
+        </div>
+
+        <div class="counter-section">
+            <h2>La seconde où mon cœur bat</h2>
+            <span id="big-days">0 jours</span>
+            <span id="sub-time">00h 00dk 00sn</span>
+        </div>
+
+        <hr>
+
+        <div class="gallery-grid">
+            <div class="polaroid-frame">
+                <div class="photo-box" style="background-image: url('photos/photo2.png');"></div>
+                <span class="polaroid-note">𓆩♡𓆪 Mon plus beau paysage 𓆩♡𓆪</span>
+            </div>
+            <div class="polaroid-frame">
+                <div class="photo-box" style="background-image: url('photos/image.png');"></div>
+                <span class="polaroid-note">⛥ Ton sourire magique ୨ৎ</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="song-card">
+            <i class="fa-solid fa-compact-disc vinyl-record" id="vinyl"></i>
+            <div class="playlist-title">♫ Les chansons que vous aimez ♪</div>
+            
+            <div class="playlist-item" onclick="mp3Cal('musique/Can Ozan - Toprak Yağmura.mp3', this)">
+                <div><i class="fa-solid fa-play play-icon"></i> Toprak Yağmura</div>
+                <span>Can Ozan</span>
+            </div>
+            <div class="playlist-item" onclick="mp3Cal('musique/Mert Demir feat. Duygu Edis - Olmazlara Vuruluyorum.mp3', this)">
+                <div><i class="fa-solid fa-play play-icon"></i> Olmazlara Vuruluyorum</div>
+                <span>Mert Demir</span>
+            </div>
+            <div class="playlist-item" onclick="mp3Cal('musique/Yalın - Her şey Sensin (Official Video) (1).mp3', this)">
+                <div><i class="fa-solid fa-play play-icon"></i> Her Şey Sensin</div>
+                <span>Yalın</span>
+            </div>
+            <div class="playlist-item" onclick="mp3Cal('musique/Onur Can Özcan - Yaramızda Kalsın.mp3', this)">
+                <div><i class="fa-solid fa-play play-icon"></i> Yaramızda Kalsın</div>
+                <span>Onur Can Özcan</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <h3 style="text-align: center; margin-bottom: 20px; color: #2c221e;"><i class="fa-solid fa-envelope-open-text"></i> Lettres pour toi</h3>
+        
+        <div class="envelope-card">
+            <div class="envelope-header" onclick="mektupTetikle('mektup1', this)">
+                <h4><i class="fa-solid fa-wind" style="color: #ffb5a7;"></i> Quand je te manque...</h4>
+                <button class="open-btn">Lire</button>
+            </div>
+            <div id="mektup1" class="letter-content">
+                "Ferme les yeux. Je suis dans chaque souvenir qui te fait sourire, dans chaque battement qui murmure mon nom.."
+            </div>
+        </div>
+
+        <div class="envelope-card">
+            <div class="envelope-header" onclick="mektupTetikle('mektup2', this)">
+                <h4><i class="fa-solid fa-cloud-rain" style="color: #ffb5a7;"></i> Quand tu as un coup de cafard...</h4>
+                <button class="open-btn">Lire</button>
+            </div>
+            <div id="mektup2" class="letter-content">
+                "Même les jours les plus sombres perdent contre la lumière que tu portes en toi. N'oublie jamais à quel point tu es précieuse.."
+            </div>
+        </div>
+
+        <div class="envelope-card">
+            <div class="envelope-header" onclick="mektupTetikle('mektup3', this)">
+                <h4><i class="fa-solid fa-sun" style="color: #ffb5a7;"></i> Quand tu es heureuse...</h4>
+                <button class="open-btn">Lire</button>
+            </div>
+            <div id="mektup3" class="letter-content">
+                "Ton bonheur est mon endroit préféré. Continue de sourire, le monde est plus beau quand tes yeux brillent."
+            </div>
+        </div>
+
+        <div class="envelope-card">
+            <div class="envelope-header" onclick="mektupTetikle('mektup4', this)">
+                <h4><i class="fa-solid fa-moon" style="color: #ffb5a7;"></i> Quand tu n'arrives pas à dormir...</h4>
+                <button class="open-btn">Lire</button>
+            </div>
+            <div id="mektup4" class="letter-content">
+                "Laisse la nuit emporter tes inquiétudes. Je veille sur toi dans chacune de mes pensées, même quand nous sommes loin."
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0; font-family: 'Caveat', cursive; font-size: 1.5rem; color: #6f4e37; font-style: italic; line-height: 1.4;">
+            "Aimer, ce n'est pas se regarder l'un l'autre, <br> c'est regarder ensemble dans la même direction." <br>
+            <span style="font-size: 1.1rem; color: #a08575;">— Le Petit Prince</span>
+        </div>
+
+        <footer>
+            <i class="fa-solid fa-infinity"></i>
+        </footer>
+    </div>
+
+    <script>
+        // Tanışma Zamanı Kilitli: 21 Mayıs 2026 15:15:00
+        const baslangicTarihi = new Date(2026, 4, 21, 15, 15, 0); 
+        let suAnCalanNesne = null;
+        const player = document.getElementById('audio-player');
+
+        // Giriş Butonunu Açan Fonksiyon
+        function siteyiAc() {
+            const welcomeScreen = document.getElementById('welcome-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            if (welcomeScreen && mainContent) {
+                welcomeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }, 800);
+            }
+        }
+
+        // Kusursuz MP3 Oynatıcı Fonksiyonu
+        function mp3Cal(sesLink, element) {
+            const vinyl = document.getElementById('vinyl');
+            const tumIkonlar = document.querySelectorAll('.play-icon');
+            const tumSatirlar = document.querySelectorAll('.playlist-item');
+            const tiklananIkon = element.querySelector('.play-icon');
+
+            // Eğer aynı şarkıya basıldıysa duraklat
+            if (suAnCalanNesne === element) {
+                if (!player.paused) {
+                    player.pause();
+                    vinyl.classList.remove('playing');
+                    tiklananIkon.className = "fa-solid fa-play play-icon";
+                } else {
+                    player.play();
+                    vinyl.classList.add('playing');
+                    tiklananIkon.className = "fa-solid fa-pause play-icon";
+                }
+                return;
+            }
+
+            // Önceki aktif tasarımları temizle
+            tumSatirlar.forEach(s => s.classList.remove('active-song'));
+            tumIkonlar.forEach(i => i.className = "fa-solid fa-play play-icon");
+
+            // Yeni şarkıyı yükle ve çal
+            player.src = sesLink;
+            player.play()
+                .then(() => {
+                    vinyl.classList.add('playing');
+                    tiklananIkon.className = "fa-solid fa-pause play-icon";
+                    element.classList.add('active-song');
+                    suAnCalanNesne = element;
+                })
+                .catch(err => console.log("Müzik yükleme hatası veya engeli:", err));
+        }
+
+        // Şarkı bittiğinde plağı durdur ve stilleri sıfırla
+        player.onended = function() {
+            const vinyl = document.getElementById('vinyl');
+            vinyl.classList.remove('playing');
+            if (suAnCalanNesne) {
+                suAnCalanNesne.querySelector('.play-icon').className = "fa-solid fa-play play-icon";
+                suAnCalanNesne.classList.remove('active-song');
+            }
+            suAnCalanNesne = null;
+        };
+
+        // Sayaç Güncelleme
+        function kronometreGuncelle() {
+            const simdi = new Date();
+            const fark = simdi - baslangicTarihi;
+
+            const msGun = 1000 * 60 * 60 * 24;
+            const msSaat = 1000 * 60 * 60;
+            const msDakika = 1000 * 60;
+
+            const gun = Math.floor(fark / msGun);
+            const saat = Math.floor((fark % msGun) / msSaat);
+            const dakika = Math.floor((fark % msSaat) / msDakika);
+            const saniye = Math.floor((fark % msDakika) / 1000);
+
+            document.getElementById("big-days").innerText = gun + " Jours";
+            document.getElementById("sub-time").innerHTML = `${saat}h ${dakika < 10 ? '0'+dakika : dakika}min ${saniye < 10 ? '0'+saniye : saniye}s`;
+        }
+
+        // Mektup Aç/Kapat
+        function mektupTetikle(id, element) {
+            const hedefMektup = document.getElementById(id);
+            const buton = element.querySelector('.open-btn');
+            if (hedefMektup.classList.contains('open')) {
+                hedefMektup.classList.remove('open');
+                buton.innerText = "Lire";
+            } else {
+                hedefMektup.classList.add('open');
+                buton.innerText = "Fermer";
+            }
+        }
+
+        // Arka Plan Parıltıları
+        function pariltiUret() {
+            const simgeler = ['fa-sparkles', 'fa-star', 'fa-heart'];
+            const secilenSimge = simgeler[Math.floor(Math.random() * simgeler.length)];
+            const parilti = document.createElement('i');
+            parilti.className = `fa-solid ${secilenSimge} premium-sparkle`;
+            parilti.style.left = Math.random() * 95 + "vw";
+            parilti.style.top = Math.random() * 95 + "vh";
+            parilti.style.fontSize = Math.random() * 12 + 8 + "px";
+            document.body.appendChild(parilti);
+            setTimeout(() => { parilti.remove(); }, 4000);
+        }
+
+        kronometreGuncelle();
+        setInterval(kronometreGuncelle, 1000);
+        setInterval(pariltiUret, 450);
+    </script>
+</body>
+</html>
